@@ -2,8 +2,47 @@
 SETUP OF THE CIRCUIT AND EXECUTION OF THIS PROJECT ON THE BBB
 =====================================================================================
 
-Set up the breadboard this way:
-1. 
+NOTE: This circuit can be driven off the SYS 5V, which is the voltage supplied by connecting
+the USB.
+
+==================================================
+LCD Display pinout 
+==================================================
+1 - GND								
+2 - Vcc								
+3 - contrast adjustment 			
+4 - register select (RS)
+5 - read/write (R/W) select
+6 - enable (E)
+7 - DB0
+8 - DB1
+9 - DB2
+10 - DB3
+11 - DB4
+12 - DB5
+13 - DB6
+14 - DB7
+15 - LED+ (power for backlight) 	--> connect to 5V
+16 - LED- (gnd for backlight) 		--> connect to GND
+
+Notes:
+- the Enable pin is used to latch the data into the data register of the LCD
+- RS: 0 is 'command' to the instruction register. 1 is 'user data' to the instruction register
+- R/W: 0 is writing to LCD. 1 is reading from LCD 
+
+LCD Used (Part number JHD162A):
+https://en.wikipedia.org/wiki/Hitachi_HD44780_LCD_controller
+https://www.instructables.com/id/Interface-Lcd-With-Arduino-Beginner-Guide/
+
+==================================================
+10k ohm variable Potentiometer
+==================================================
+T1 --> 5V
+T2 --> GND
+Wiper --> Contrast adjustment pin on LCD display
+
+
+
 
 
 1. Build the project
