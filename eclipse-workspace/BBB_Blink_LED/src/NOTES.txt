@@ -1,0 +1,73 @@
+=====================================================================================
+SETUP OF THE CIRCUIT AND EXECUTION OF THIS PROJECT ON THE BBB
+=====================================================================================
+
+Set up the breadboard this way:
+1. Connect P8 pin 10 of header on BBB to one side of 220 resistor
+2. Connect other side of resistor to positive side (long end) of LED
+3. Connect negative side (short end) of LED to ground. 
+4. Connect ground to ground of the P8 header, pin 1 or 2
+
+
+1. Build the project
+2. Drag the binaries to the folder on the hardware you want to execute from
+3. Go to to location on the hardware using putty
+4. Give execution priveleges to the binary:
+	$ chmod +x BBB_Blink_LED
+5. Run it:
+	$ ./BBB_BLINK_LED
+
+
+
+=====================================================================================
+Instead of accessing the GPIO pin through code, this can be done via the Linux shell.
+=====================================================================================
+
+IF YOU DON"T KNOW WHICH PINS TO USE:
+1. To find out which expansion header pins are available for GPIO:
+	$ cd /sys/kernel/debug
+	$ cat gpio
+	
+2. To go to the pin control, and find out what the control register values for the pins are 
+	currently configured at:
+	$ cat /sys/kernel/debug/pinctrl/44e10800.pinmux/pins
+	
+	This will show something like: sw pin 84 (as defined by the kernel) at address 44e10800 00000027
+	
+		==> The 27 can be broken down as 8 bit control register value 0010 0111
+		==> In this case,
+			bits 2-0 --> 111 --> mode 7
+			bit  3   --> 0   --> pullup/pulldown enabled
+			bit  4   --> 0   --> pulldown selected
+			bit  5   --> 1   --> reciever enabled (configured as an input)
+			bit  6   --> 0   --> fast slew rate
+			bit  7   --> 0   --> reserved
+			
+
+
+IF YOU KNOW THE GPIO PIN TO CONTROL (TAKE FOR EXAMPLE: GPIO68, which is mapped to Header P8 pin 10):
+1. Go to the GPIO folder and look to see if the GPIO68 pin has been configured in our system
+	$ cd /sys/class/gpio
+	$ ls
+	
+2. If it is not there, create it, then verify it exists
+	$ echo 68 > export
+	$ ls
+	
+3. Go into the GPIO pin folder and view the files associated with it:
+	$ cd gpio68
+	$ ls
+	
+4. Check the configured direction of the pin to see if it is "in" or "out" (i.e. input or output)
+	$ cat direction
+	
+5. Configure the direction to an output:
+	$ echo "out" > direction
+	
+6. Control the GPIO pin 68 (ON)
+	$ echo 1 > value
+	
+7. Control the GPIO pin 68 (OFF)
+	$ echo 0 > value
+	
+
