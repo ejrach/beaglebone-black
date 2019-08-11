@@ -3,7 +3,8 @@ SETUP OF THE CIRCUIT AND EXECUTION OF THIS PROJECT ON THE BBB
 =====================================================================================
 
 Set up the breadboard this way:
-1. Connect P8 pin 10 of header on BBB to one side of 220 resistor
+1. Connect P8 pin 10 of header on BBB to one side of 220 resistor. This corresponds to GPIO68
+	See the "Headerpinsmap.xlsx" file for details.
 2. Connect other side of resistor to positive side (long end) of LED
 3. Connect negative side (short end) of LED to ground. 
 4. Connect ground to ground of the P8 header, pin 1 or 2

@@ -39,7 +39,7 @@ int main(void)
 
 	//First see if this file exists on the BBB HW.
 	//You can manually browse the file system to determine this, or
-	//do this programmatically:
+	//do this programatically:
 	status = access("/sys/class/gpio/gpio68/value", F_OK);
 
 	if (status == -1)
