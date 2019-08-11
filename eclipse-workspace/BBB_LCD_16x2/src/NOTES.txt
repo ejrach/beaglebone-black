@@ -1,0 +1,15 @@
+=====================================================================================
+SETUP OF THE CIRCUIT AND EXECUTION OF THIS PROJECT ON THE BBB
+=====================================================================================
+
+Set up the breadboard this way:
+1. 
+
+
+1. Build the project
+2. Drag the binaries to the folder on the hardware you want to execute from
+3. Go to to location on the hardware using putty
+4. Give execution priveleges to the binary:
+	$ chmod +x BBB_LCD_16x2
+5. Run it:
+	$ ./BBB_LCD_16x2
