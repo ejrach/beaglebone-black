@@ -51,6 +51,8 @@ P9.7                              ----            2(sys_VDD +5V)  +5V supply
 int initialize_all_gpios(void)
 {
 	/* first lets export all the GPIOs */
+	//system("echo 66 > /sys/class/gpio/export");
+
 	gpio_export(GPIO_66_P8_7_RS_4);
 	gpio_export(GPIO_67_P8_8_RW_5);
 	gpio_export(GPIO_69_P8_9_EN_6);

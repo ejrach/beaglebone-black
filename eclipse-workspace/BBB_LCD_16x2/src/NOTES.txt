@@ -5,6 +5,8 @@ SETUP OF THE CIRCUIT AND EXECUTION OF THIS PROJECT ON THE BBB
 NOTE: This circuit can be driven off the SYS 5V, which is the voltage supplied by connecting
 the USB.
 
+Example of how the commands work: http://www.dinceraydin.com/lcd/commands.htm
+
 ==================================================
 LCD Display pinout 
 ==================================================

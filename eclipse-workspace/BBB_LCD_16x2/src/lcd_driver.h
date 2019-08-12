@@ -45,6 +45,9 @@ characters (for example, the letter a). */
 
 /*************************************LCD COMMAND SETS **********************************************/
 
+//These command sets are defined based off "HD44780.pdf" Hitachi LCD spec.
+//See page 24, which defines DB7 to DB0
+
 /*Clears entire display and sets DDRAM address 0 in
 address counter .. clears display fills up DDRAM with 20H ..
 thats the ASCII value for black character or "space"*/
@@ -56,7 +59,14 @@ DDRAM contents remain unchanged. */
 
 
 /* Sets cursor move direction and specifies display shift. These operations are performed during data write
-and read. */
+and read.
+DB7  DB6  DB5  DB4  DB3  DB2  DB1  DB0
+  0    0    0    0    0    1  I/D    S
+
+Where:
+I/D = 1 increments DDRAM address by 1; 0 decrements DDRAM address by 1
+S   = Shifts entire display to right (I/D = 0) or to the left (I/D = 1) when S is 1
+*/
 #define LCD_CMD_ENTRY_MODESET   			 0X04
 
 #define INC_CURSOR     						( 1 << 1)
@@ -65,7 +75,10 @@ and read. */
 #define DO_NOT_ACCOMPANY_DISPLAY_SHIFT      (LCD_CMD_ENTRY_MODESET & ~(ACCOMPANY_DISPLAY_SHIFT))
 
 
-/*Sets entire display (D) on/off, cursor on/off (C), and blinking of cursor position character (B).*/
+/*Sets entire display (D) on/off, cursor on/off (C), and blinking of cursor position character (B).
+DB7  DB6  DB5  DB4  DB3  DB2  DB1  DB0
+  0    0    0    0    1    D    C    B
+*/
 #define LCD_CMD_DISPLAY_CURSOR_ONOFF_CONTROL  0x08
 
 #define DISPLAY_ON    						(1 << 2)
@@ -77,7 +90,10 @@ and read. */
 #define BLINK_CURSOR_ON 	 				(1 << 0)
 #define BLINK_CURSOR_OFF  					(LCD_CMD_DISPLAY_CURSOR_ONOFF_CONTROL & ~(BLINK_CURSOR_ON))
 
-/* Moves cursor and shifts display without changing DDRAM contents*/
+/* Moves cursor and shifts display without changing DDRAM contents
+DB7  DB6  DB5  DB4  DB3  DB2  DB1  DB0
+  0    0    0    1  S/C  R/L    -    -
+*/
 #define LCD_CMD_CURSOR_DISPLAY_SHIFT_CONTROL  0x10
 
 #define DISPLAY_SHIFT   					  ( 1 << 3)
@@ -87,7 +103,10 @@ and read. */
 #define SHIFT_TO_LEFT   					 (LCD_CMD_CURSOR_DISPLAY_SHIFT_CONTROL & ~(SHIFT_TO_RIGHT))
 
 
-/*Sets interface data length (DL), number of display lines (N), and character font (F). */
+/*Sets interface data length (DL), number of display lines (N), and character font (F).
+DB7  DB6  DB5  DB4  DB3  DB2  DB1  DB0
+  0    0    1  D/L    N    F    -    -
+*/
 #define LCD_CMD_FUNCTION_SET  				0x20
 
 #define DATA_LEN_8  						( 1 << 4)
@@ -98,10 +117,16 @@ and read. */
 #define MATRIX_5_X_8 						(LCD_CMD_FUNCTION_SET & ~(MATRIX_5_X_10))
 
 
-/*Sets CGRAM address. CGRAM data is sent and received after this setting. */
+/*Sets CGRAM address. CGRAM data is sent and received after this setting.
+DB7  DB6  DB5  DB4  DB3  DB2  DB1  DB0
+  0    1  ACG  ACG  ACG  ACG  ACG  ACG
+*/
 #define LCD_CMD_SET_CGRAM_ADDRESS  			0x40
 
-/* Sets DDRAM address. DDRAM data is sent and received after this setting. */
+/* Sets DDRAM address. DDRAM data is sent and received after this setting.
+DB7  DB6  DB5  DB4  DB3  DB2  DB1  DB0
+  1  ADD  ADD  ADD  ADD  ADD  ADD  ADD
+*/
 #define LCD_CMD_SET_DDRAM_ADDRESS  			0x80
 
 #define DDRAM_SECOND_LINE_BASE_ADDR         (LCD_CMD_SET_DDRAM_ADDRESS | 0x40 )

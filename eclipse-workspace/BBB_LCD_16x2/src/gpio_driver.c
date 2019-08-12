@@ -27,6 +27,7 @@ int gpio_export(uint32_t gpio_num)
 
 	fd = open(SYS_GPIO_PATH "/export", O_WRONLY);
 	if (fd < 0) {
+		printf("gpio: %d\n", gpio_num);
 		perror(" error opening export file\n");
 		return fd;
 	}
@@ -51,6 +52,7 @@ int gpio_configure_dir(uint32_t gpio_num, uint8_t dir_value)
 
     fd = open(buf, O_WRONLY);
     if (fd < 0) {
+    	printf("gpio: %d\n", gpio_num);
         perror("gpio direction configure\n");
         return fd;
     }
@@ -77,6 +79,7 @@ int gpio_write_value(uint32_t gpio_num, uint8_t out_value)
 
     fd = open(buf, O_WRONLY);
     if (fd < 0) {
+    	printf("gpio: %d\n", gpio_num);
         perror("gpio write value\n");
         return fd;
     }

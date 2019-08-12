@@ -194,5 +194,5 @@ void lcd_printf(const char *fmt, ...)
               lcd_print_char(letter);
         }
       }
- }
+  }
 
