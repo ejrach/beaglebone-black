@@ -8,6 +8,8 @@
  ============================================================================
  */
 
+/* drag the binary into the desktop location of the remote system */
+
 #include <stdio.h>
 #include <stdlib.h>
 
