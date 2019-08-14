@@ -22,7 +22,7 @@
 
 
 /* GPIO PIN DEFINITIONS */
-#define GPIO_LED 			68
+#define GPIO_LED 			64
 
 
 //public function prototypes .

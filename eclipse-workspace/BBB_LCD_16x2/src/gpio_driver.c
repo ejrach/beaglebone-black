@@ -27,7 +27,7 @@ int gpio_export(uint32_t gpio_num)
 
 	fd = open(SYS_GPIO_PATH "/export", O_WRONLY);
 	if (fd < 0) {
-		printf("gpio: %d\n", gpio_num);
+		//printf("gpio: %d\n", gpio_num);
 		perror(" error opening export file\n");
 		return fd;
 	}
