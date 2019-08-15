@@ -19,8 +19,6 @@
 #define GPIO_LOW_VALUE      LOW_VALUE
 #define GPIO_HIGH_VALUE     HIGH_VALUE
 
-
-
 /* GPIO PIN DEFINITIONS */
 #define GPIO_LED 			68
 

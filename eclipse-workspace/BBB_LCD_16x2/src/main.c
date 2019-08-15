@@ -71,6 +71,8 @@ int initialize_all_gpios(void)
     gpio_configure_dir(GPIO_44_P8_12_D6_13,GPIO_DIR_OUT);
     gpio_configure_dir(GPIO_26_P8_14_D7_14,GPIO_DIR_OUT);
 
+    printf("Completed initialization of GPIOs\n");
+
     return 0;
 
 }
@@ -80,6 +82,8 @@ void print_time_and_date()
 {
 	time_t rawtime;
 	struct tm * timeinfo;
+
+	printf("In print time and date\n");
 
 	time ( &rawtime );
 	timeinfo = localtime ( &rawtime );
@@ -101,6 +105,8 @@ int print_ip_address()
     struct ifreq ifr;
 
     char iface[] = "usb0";
+
+    printf("In print ip address\n");
 
     fd = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -129,7 +135,7 @@ int print_ip_address()
 /* Some silly graphics :) */
 void tansition_graphics(void)
 {
-
+	printf("In transition graphics\n");
 	 sleep(1);
 
     lcd_set_cursor(1,1);
@@ -178,7 +184,7 @@ int main(int argc, char *argv[])
         the display and never reading from it.*/
         gpio_write_value(GPIO_67_P8_8_RW_5,GPIO_LOW_VALUE);
 
-       /*• The EN pin is used to tell the LCD when data is ready*/
+       /*The EN pin is used to tell the LCD when data is ready*/
         gpio_write_value(GPIO_69_P8_9_EN_6,GPIO_LOW_VALUE);
 
         /*Data pins 4~7 are used for actually transmitting data, and data pins 0~3 are left unconnected*/
@@ -206,6 +212,7 @@ int main(int argc, char *argv[])
 
         while(1)
         {
+        	printf("In while loop\n");
              lcd_printf("BBB LCD Demo\n");
              tansition_graphics();
              print_ip_address();

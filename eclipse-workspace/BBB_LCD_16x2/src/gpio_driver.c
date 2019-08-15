@@ -12,7 +12,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include<string.h>
+#include <string.h>
+#include <stdlib.h> //included for "system" access
 
 #include "gpio_driver.h"
 
@@ -23,20 +24,35 @@
 int gpio_export(uint32_t gpio_num)
 {
 	int fd, len;
-	char buf[SOME_BYTES];
+		char buf[SOME_BYTES];
 
-	fd = open(SYS_GPIO_PATH "/export", O_WRONLY);
-	if (fd < 0) {
-		//printf("gpio: %d\n", gpio_num);
-		perror(" error opening export file\n");
-		return fd;
-	}
+		//Check that the 'export' directory exists for the GPIOs.
+		//If there is a real issue opening the file, then return an error.
+		fd = open(SYS_GPIO_PATH "/export", O_WRONLY);
+		if (fd < 0) {
+			perror(" error opening export file\n");
+			return fd;
+		}
 
-	len = snprintf(buf, sizeof(buf), "%d", gpio_num);
-	write(fd, buf, len);
-	close(fd);
+		//Since the 'export' directory exists, first check if the GPIO already exists by trying to access it.
+		//If it does exist, do not try to export it again - there will be an error.
+		//https://stackoverflow.com/questions/52125581/the-gpio-folder-is-deleted-when-the-same-gpio-is-exported-again
+		int status = -1;
+		len = snprintf(buf, sizeof(buf), SYS_GPIO_PATH "/gpio%d", gpio_num);
+		status = access(buf, F_OK);
 
-	return 0;
+		//If the GPIO is not accessible, then write it to the file opened by handle 'fd'
+		if (status < 0)
+		{
+			//Adds the GPIO number to the buffer and writes it into the export directory
+			len = snprintf(buf, sizeof(buf), "%d", gpio_num);
+			write(fd, buf, len);
+		}
+
+		//Close the file descriptor
+		close(fd);
+
+		return 0;
 }
 
 /*
