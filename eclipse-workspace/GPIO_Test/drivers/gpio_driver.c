@@ -12,7 +12,6 @@
 #include "../drivers/gpio_driver.h"
 
 
-
 /*
  *  GPIO export pin
  */
@@ -20,8 +19,6 @@ int gpio_export(uint32_t gpio_num)
 {
 	int fd, len;
 	char buf[SOME_BYTES];
-
-	printf("In GPIO export function\n");
 
 	//Check that the 'export' directory exists for the GPIOs.
 	//If there is a real issue opening the file, then return an error.
@@ -35,25 +32,20 @@ int gpio_export(uint32_t gpio_num)
 	//If it does exist, do not try to export it again - there will be an error.
 	//https://stackoverflow.com/questions/52125581/the-gpio-folder-is-deleted-when-the-same-gpio-is-exported-again
 	int status = -1;
-	//status = access("/sys/class/gpio/gpio68/value", F_OK);
 	len = snprintf(buf, sizeof(buf), SYS_GPIO_PATH "/gpio%d", gpio_num);
 	status = access(buf, F_OK);
-	printf("buf: %s\n", buf);
-	printf("buffer len: %d\n", len);
+
+	//If the GPIO is not accessible, then write it to the file opened by handle 'fd'
 	if (status < 0)
 	{
-		printf("GPIO%d does not exist. Creating it.\n", gpio_num);
 		//Adds the GPIO number to the buffer and writes it into the export directory
-		//Then
 		len = snprintf(buf, sizeof(buf), "%d", gpio_num);
 		write(fd, buf, len);
-		printf("Done creating GPIO%d\n", gpio_num);
 	}
 
 	//Close the file descriptor
 	close(fd);
 
-	printf("Exiting GPIO export function\n");
 	return 0;
 }
 
@@ -66,31 +58,22 @@ int gpio_configure_dir(uint32_t gpio_num, uint8_t dir_value)
     int fd;	//file descriptor
     char buf[SOME_BYTES];
 
+    //	buf is set equal to = /sys/class/gpio/gpio%d/direction
     snprintf(buf, sizeof(buf), SYS_GPIO_PATH "/gpio%d/direction", gpio_num);
 
-    //debug
-    printf("gpio_num: %d\n", gpio_num);
-    printf("dir_value: %d\n", dir_value);
-    printf("buf: %s\n", buf);
+    fd = open(buf, O_WRONLY);
 
-    system("echo out > /sys/class/gpio/gpio68/direction");
+    if (fd < 0) {
+        perror("gpio direction configure\n");
+        return fd;
+    }
 
+    if (dir_value)
+        write(fd, "out", 4); //3+1  +1 for NULL character
+    else
+        write(fd, "in", 3);
 
-//    fd = open(buf, O_WRONLY);
-//
-//    printf("fd: %d\n", fd);
-//
-//    if (fd < 0) {
-//        perror("gpio direction configure\n");
-//        return fd;
-//    }
-//
-//    if (dir_value)
-//        write(fd, "out", 4); //3+1  +1 for NULL character
-//    else
-//        write(fd, "in", 3);
-
-//    close(fd);
+    close(fd);
     return 0;
 }
 
