@@ -3,9 +3,29 @@
  Name        : GPIO_Test.c
  Author      : Eric
  Version     :
- Copyright   : Your copyright notice
+ Copyright   :
  Description :
  ============================================================================
+ */
+
+/*
+ * Instructions:
+ *
+ * Build Project
+ * 		Project -> Build Project
+ *
+ * Transfer binaries from Eclipse to BBB
+ * 		If "Remote Systems" is not visible, Open Remote Explorer:
+ * 			Window -> Show View -> Other -> Remote Systems -> Remote Systems
+ * 		Establish a connection to BBB by clicking the button in the Remote Systems view
+ * 			Define a connection to a remote system -> SSH only
+ * 			Follow the steps to connect to 192.168.7.2
+ * 		Drag the binaries to the Desktop (or wherever you want to run it from)
+ *
+ * 	Open Putty to establish a SSH, login as debian
+ *		Give the project execute priveleges $ chmod +x GPIO_Test
+ *		Run the project: $ ./GPIO_Test
+ *
  */
 
 #include <stdio.h>
