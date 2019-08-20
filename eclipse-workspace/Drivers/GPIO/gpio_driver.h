@@ -20,7 +20,10 @@
 #define GPIO_HIGH_VALUE     HIGH_VALUE
 
 /* GPIO PIN DEFINITIONS */
-#define GPIO_LED 			68
+/* Refer to the "Headerspinmap.xlsx file in my Dropbox for pin definitions */
+// Pin Name					GPIO Number		Pin Header	Pin Number
+#define GPIO_LED 			68				// P8		// 10
+
 
 
 //public function prototypes .

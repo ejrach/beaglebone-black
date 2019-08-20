@@ -1,3 +1,16 @@
+/*
+ * To include this driver in a project:
+ * 		File -> Import -> General -> File System [Next]
+ * 		Select the directory of where the drivers are.
+ * 		Select Files
+ * 		Click Advanced and ...
+ * 			check "create link location" relative to PROJECT_LOC
+ * 			check "create virtual folder"
+ *
+ * 		In the source file location of your main program include the header:
+ * 			#include "../../Drivers/GPIO/gpio_driver.h"
+ */
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
@@ -9,8 +22,7 @@
 #include <string.h>
 #include <stdlib.h> //included for "system" access
 
-#include "../drivers/gpio_driver.h"
-
+#include "gpio_driver.h"
 
 /*
  *  GPIO export pin

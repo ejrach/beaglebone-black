@@ -34,8 +34,7 @@
 #include <signal.h>		//included for the signal interrupt handler
 #include <unistd.h>
 
-
-#include "../drivers/gpio_driver.h"
+#include "../../Drivers/GPIO/gpio_driver.h"
 
 
 /* This function initializes all the gpios for this application
