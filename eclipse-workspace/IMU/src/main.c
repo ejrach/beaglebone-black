@@ -54,18 +54,23 @@ Connections:
 #include <linux/i2c-dev.h>		//included for I2C_SLAVE definition
 //#include <errno.h>
 
+#define MS_IN_ONE_SECOND		1000
+#define MS_TO_SLEEP				250
 
-
-
-
-
-
+void clear()
+{
+#if defined(__linux__) || defined(__unix__) || defined(__apple__)
+	system("clear");
+#endif
+#if defined(__WIN32) || defined(_WIN64)
+	system("cls");
+#endif
+}
 
 int main(void)
 {
 	// Define the file descriptor used by Linux OS
 	int fd;
-	int test = MAX_VALUE;
 
 	// Define variables to hold the X, Y, Z raw values
 	short int accel_value[3];
@@ -98,14 +103,44 @@ int main(void)
 
 	// Now initialize the MPU6050
 	mpu6050_init(fd);
-	mpu6050_write(fd, 0, 0);
 
-	//
-	//
-	//
-	//
-	//
+	// Loop infinitely
+	while(1)
+	{
+		// Clear the screen
+		clear();
 
+		mpu6050_read_accel(fd, accel_value);
+		mpu6050_read_gyro(fd, gyro_value);
+
+		// Convert accelerometer raw values read in, to 'g' values
+		// Note: using ACCEL_FS_SENSITIVITY_0 because we have configured AFS_SEL to
+		// full scale range +/- 2g
+		accel_x = (double) accel_value[0] / ACCEL_FS_SENSITIVITY_0;
+		accel_y = (double) accel_value[1] / ACCEL_FS_SENSITIVITY_0;
+		accel_z = (double) accel_value[2] / ACCEL_FS_SENSITIVITY_0;
+
+		// Convert gyro raw values read in, to 'deg/sec' values
+		// Note: using GYRO_FS_SENSITIVITY_0 because we have configured FS_SEL to
+		// full scale range of +/- 250 deg/sec
+		gyro_x = (double) gyro_value[0] / GYRO_FS_SENSITIVITY_0;
+		gyro_y = (double) gyro_value[1] / GYRO_FS_SENSITIVITY_0;
+		gyro_z = (double) gyro_value[2] / GYRO_FS_SENSITIVITY_0;
+
+		//Print the raw values read
+		printf("Acc(raw)=> X:%d Y:%d Z:%d\n", accel_value[0], accel_value[1], accel_value[2]);
+		printf("Gyro(raw)=> X:%d Y:%d Z:%d\n", gyro_value[0], gyro_value[1], gyro_value[2]);
+
+		//Print the 'g' and 'deg/sec' values
+		printf("accel_x = %0.2f   accel_y = %0.2f   accel_z = %0.2f\n", accel_x, accel_y, accel_z);
+		printf("gyro_x  = %0.2f   gyro_y  = %0.2f   gyro_z  = %0.2f\n", gyro_x, gyro_y, gyro_z);
+
+		//Wait for before looping again
+		usleep( MS_TO_SLEEP * MS_IN_ONE_SECOND );
+
+
+
+	}
 
 	return EXIT_SUCCESS;
 }

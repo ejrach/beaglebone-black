@@ -73,8 +73,6 @@
 // The I2C slave address of the MPU6050
 #define MPU6050_SLAVE_ADDR			0x68
 
-#define MAX_VALUE					50
-
 // The linux device file for the I2C-2 controller of the SOC
 #define I2C_DEVICE_FILE				"/dev/i2c-2"
 
@@ -90,8 +88,8 @@
 void mpu6050_init(uint16_t fd);
 int mpu6050_write(uint16_t fd, uint8_t addr, uint8_t data);
 int mpu6050_read(uint16_t fd, uint8_t base_addr, char *pBuffer, uint32_t len);
-void mpu6050_read_accel(short int *pBuffer);
-void mpu6050_read_gyro(short int *pBuffer); //TBD - remove "int"?
+void mpu6050_read_accel(uint16_t fd, short int *pBuffer);
+void mpu6050_read_gyro(uint16_t fd, short int *pBuffer); //TBD - remove "int"?
 
 
 #endif /* MPU6050_H_ */
