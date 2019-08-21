@@ -7,13 +7,41 @@
  Description : TBD
  ============================================================================
  */
+
+#ifndef MPU6050_H_
+#define MPU6050_H_
+
+
 #include <stdint.h>
 
 
 // MPU6050 Register Addresses (see "MPU-6000-Register-Map.pdf")
 #define MPU6050_REG_POWER			0x6B	/* pg 8 */
+#define WAKE_MODE					0x00	/* pg 40/41 */
+// B2:0 -> CLKSEL 		-> 0 -> Use Internal 8MHz oscillator
+// B3   -> TEMP_DIS 	-> 0 -> Enable temperature sensor
+// B4 	-> don't care	-> 0
+// B5	-> CYCLE		-> 0 -> With Sleep = 0, Disable Sleep inbetween data reads
+// B6	-> SLEEP 		-> 0 ->	Take out of sleep mode
+// B7   -> DEVICE_RESET -> 0 -> Don't reset to default values
+
+// MPU6050 Register Addresses (see "MPU-6000-Register-Map.pdf")
 #define MPU6050_REG_ACCEL_CONFIG	0x1C	/* pg 6 */
+#define ACCEL_CONFIG				0x00	/* pg 15 */
+// B2:0 -> don't care	-> 0
+// B4:3 -> AFS_SEL 		-> 0 -> configure accelerometers to a full scale range of +/- 2g
+// B5	-> ZA_ST		-> 0 -> Disable self test of Z-axis accelerometer
+// B6	-> YA_ST 		-> 0 ->	Disable self test of Y-axis accelerometer
+// B7   -> XA_ST		-> 0 -> Disable self test of X-axis accelerometer
+
+// MPU6050 Register Addresses (see "MPU-6000-Register-Map.pdf")
 #define MPU6050_REG_GYRO_CONFIG		0x1B	/* pg 6 */
+#define GYRO_CONFIG					0x00	/* pg 14 */
+// B2:0 -> don't care	-> 0
+// B4:3 -> FS_SEL 		-> 0 -> configure gyros to a full scale range of +/- 250 deg/sec
+// B5	-> ZG_ST		-> 0 -> Disable self test of Z-axis gyro
+// B6	-> YG_ST 		-> 0 ->	Disable self test of Y-axis gyro
+// B7   -> XG_ST		-> 0 -> Disable self test of X-axis gyro
 
 // Accelerometer register addresses for data (see "MPU-6000-Register-Map.pdf")
 #define MPU6050_REG_ACCEL_XOUT_H	0x3B	/* pg 7 */
@@ -50,13 +78,21 @@
 // The linux device file for the I2C-2 controller of the SOC
 #define I2C_DEVICE_FILE				"/dev/i2c-2"
 
+// ERROR CODES
+#define SUCCESS						0
+#define INIT_ERROR					-1
+#define CONFIG_ERROR				-2
+#define	WRITE_ERROR					-3
+#define READ_ERROR					-4
+
+
 // Function prototypes
-int mpu6050_write(uint8_t addr, uint8_t data);
-int mpu6050_read(uint8_t base_addr, char *pBuffer, uint32_t len);
-void mpu6050_init(void);
+void mpu6050_init(uint16_t fd);
+int mpu6050_write(uint16_t fd, uint8_t addr, uint8_t data);
+int mpu6050_read(uint16_t fd, uint8_t base_addr, char *pBuffer, uint32_t len);
 void mpu6050_read_accel(short int *pBuffer);
 void mpu6050_read_gyro(short int *pBuffer); //TBD - remove "int"?
 
 
-
+#endif /* MPU6050_H_ */
 
