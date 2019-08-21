@@ -1,4 +1,14 @@
 /*
+ ============================================================================
+ Name        : gpio_driver.c
+ Author      : Eric
+ Version     :
+ Copyright   :
+ Description : TBD
+ ============================================================================
+ */
+
+/*
  * To include this driver in a project:
  * 		File -> Import -> General -> File System [Next]
  * 		Select the directory of where the drivers are.
@@ -8,8 +18,9 @@
  * 			check "create virtual folder"
  *
  * 		In the source file location of your main program include the header:
- * 			#include "../../Drivers/GPIO/gpio_driver.h"
+ * 			#include "../../Drivers/<FOLDERNAME>/<FILENAME>.h"
  */
+
 
 #include <stdio.h>
 #include <stdarg.h>
