@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : GPIO_Test.c
+ Name        : main.c
  Author      : Eric
  Version     :
  Copyright   :
