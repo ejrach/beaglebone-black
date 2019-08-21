@@ -7,6 +7,8 @@
  Description : TBD
  ============================================================================
  */
+#include <stdint.h>
+
 
 // MPU6050 Register Addresses (see "MPU-6000-Register-Map.pdf")
 #define MPU6050_REG_POWER			0x6B	/* pg 8 */
@@ -49,6 +51,11 @@
 #define I2C_DEVICE_FILE				"/dev/i2c-2"
 
 // Function prototypes
+int mpu6050_write(uint8_t addr, uint8_t data);
+int mpu6050_read(uint8_t base_addr, char *pBuffer, uint32_t len);
+void mpu6050_init(void);
+void mpu6050_read_accel(short int *pBuffer);
+void mpu6050_read_gyro(short int *pBuffer); //TBD - remove "int"?
 
 
 
