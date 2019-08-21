@@ -4,11 +4,25 @@
  Author      : Eric
  Version     :
  Copyright   :
- Description :
+ Description : This project links to GPIO drivers and blinks an LED on GPIO
  ============================================================================
  */
 
-/*
+/*=================================================================
+BBB_expansion_header_pins       GPIO number		Description
+===================================================================
+P8.10                            GPIO_68
+
+P9.1                              ----            Ground
+P9.7                              ----            +5V supply
+
+Connect GPIO_68 to one end of 330 ohm resistor. Other end of resistor
+to Anode (+ or long end) of LED. Other end of LED cathode (- or short end)
+to Ground.
+=================================================================== */
+ /*
+ *
+ *
  * Instructions:
  *
  * Build Project
@@ -50,7 +64,6 @@ int initialize_all_gpios(void)
 
     return 0;
 }
-
 
 
 int main()
